@@ -3,67 +3,12 @@ import logo from "../components/assets/logo.png";
 import { useState } from "react";
 import { create as ipfsHttpClient } from "ipfs-http-client";
 
-const projectId = process.env.REACT_APP_PROJECT_ID;
-const projectSecretKey = process.env.REACT_APP_PROJECT_KEY;
-const authorization = "Basic " + btoa(projectId + ":" + projectSecretKey);
+
 
 export default function Verify() {
-  // const [hash, sethash] = useState({
-  //   hash: " ",
-  // });
+  
 
-  // const ipevent = (e) => {
-  //   let value;
-  //   console.log(e.target.value);
-  //   value = e.target.value;
-  //   sethash({ hash: value });
-  // };
 
-  // ******************************************To upload to ipfs ******************************************************************************
-
-  const [uploadedImages, setUploadedImages] = useState([]);
-  const ipfs = ipfsHttpClient({
-    url: "https://ipfs.infura.io:5001/api/v0",
-    headers: {
-      authorization,
-    },
-  });
-  const onSubmitHandler = async (event) => {
-    event.preventDefault();
-    const form = event.target;
-    const files = form[0].files;
-
-    if (!files || files.length === 0) {
-      return alert("No files selected");
-    }
-
-    const file = files[0];
-    // upload files
-    const result = await ipfs.add(file);
-
-    setUploadedImages([
-      ...uploadedImages,
-      {
-        cid: result.cid,
-        path: result.path,
-      },
-    ]);
-
-    form.reset();
-  };
-
-  const [hash, sethash] = useState({
-    hash: " ",
-  });
-
-  const ipevent = (e) => {
-    let value;
-    console.log(e.target.value);
-    value = e.target.value;
-    sethash({ hash: value });
-  };
-
-  // ************************* IPFS upload ends ****************************************************
 
   return (
     <body class="bg-dark bg-graient">
@@ -127,7 +72,6 @@ export default function Verify() {
             </div>
           </div> */}
 
-          {/* ***************************************************************************************************************************************************************** */}
           
           <div class="row featurette pt-5 mt-5  bg2">
         <div class="col-md-7">
@@ -176,12 +120,12 @@ export default function Verify() {
                           {/* <h4>Link to IPFS:</h4>
                           <a
                             href={
-                              "https://skywalker.infura-ipfs.io/ipfs/" +
+                              "https://ipfs.io/ipfs/" +
                               image.path
                             }
                           >
                             <h3>
-                              {"https://skywalker.infura-ipfs.io/ipfs/" +
+                              {"ipfs.io/ipfs/" +
                                 image.path}
                             </h3>
                           </a> */}
@@ -203,7 +147,7 @@ export default function Verify() {
                         />
                       </form>
                       <a
-                        href={`https://skywalker.infura-ipfs.io/ipfs/${hash.hash}`}
+                        href={`https://io/ipfs/${hash.hash}`}
                         target="_blank"
                       >
                         <div className="justify-content-center">
@@ -224,7 +168,6 @@ export default function Verify() {
       </div>
       
 
-          {/* ***************************************************************************************************************************************************************** */}
         </main>
 
         <footer class="my-5 pt-5 text-muted text-center text-small">
@@ -245,7 +188,6 @@ export default function Verify() {
 
       <script
         src="/docs/5.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
         crossorigin="anonymous"
       ></script>
 
