@@ -1,68 +1,28 @@
 import { useState, useEffect } from "react";
 import Web3 from "web3";
-// import temp from '../components/assets/temp3.png';
 import SimpleStorage from "../contracts/SimpleStorage.json";
-
 import temp from "../components/assets/temp3.png";
 import "./Style.css";
-// import { toPng } from "html-to-image";
-// import download from "downloadjs";
 import downloadjs from "downloadjs";
 import html2canvas from "html2canvas";
 import jsPDF, { jspdf } from "jspdf";
 
-// ********************* To upload on ipfs***********************
-import { create as ipfsHttpClient } from "ipfs-http-client";
-import $ from "jquery";
 
 // ************************* TO SEND EMAIL ****************************
 import emailjs, { send } from "emailjs-com";
 
 const projectId = process.env.REACT_APP_PROJECT_ID;
 const projectSecretKey = process.env.REACT_APP_PROJECT_KEY;
-const authorization = "Basic " + btoa(projectId + ":" + projectSecretKey);
+const authorization = "Basic " + btoa(Id + ":" + Key);
 
-// import { useNavigate } from "react-router-dom";
-
-// const Generate = () => {
-// const [user, setUser] = useState({
-//   fname : "",org: "", email: "", cert: "",idate:"", vdate:""
-// })
-
-// let name, value ;
-
-// const handleIp=(e) =>{
-//   console.log(e);
-//   name = e.target.name;
-//   value = e.target.value;
-
-//   setUser({...user, [name]:value});
-// }
 
 function Generate() {
-  //newly added code starts***********************************************************************************************
+ 
   const [state, setState] = useState({
     web3: null,
     contract: null,
   });
-  const [data, setData] = useState(null);
-  useEffect(() => {
-    async function init() {
-      const provider = new Web3.providers.HttpProvider("HTTP://127.0.0.1:7545");
-      const web3 = new Web3(provider);
-      //console.log(web3);
-      const networkId = await web3.eth.net.getId();
-      const deployedNetwork = SimpleStorage.networks[networkId];
-      console.log("Contract Address:", deployedNetwork.address);
-      const contract = new web3.eth.Contract(
-        SimpleStorage.abi,
-        deployedNetwork.address
-      );
-      //console.log(contract);
-      setState({ web3: web3, contract: contract });
-    }
-    init();
-  }, []);
+ 
 
   useEffect(() => {
     {
@@ -81,11 +41,11 @@ function Generate() {
     const input = document.querySelector("#fname");
     await contract.methods
       .setter(input.value)
-      .send({ from: "0xdB31BAE16044c100bAA5e470424BbF2BeEC4a919" }); //ganache or metamask acc address ##############################################################################################
+      .send({ from: "0xdB31BAE16044c100bAA5e470424BbF2BeEC4a919" }); 
     const dataValue = await contract.methods.getter().call();
     setData(dataValue);
   }
-  //newly added code ends*****************************************************************
+
 
   const [name, setvalue] = useState({
     fname: "",
@@ -96,8 +56,6 @@ function Generate() {
     org: "",
     authName: "",
     auth: "",
-    authName2: "",
-    auth2: "",
     logo: "",
     hashId: "",
   });
@@ -115,14 +73,6 @@ function Generate() {
     setvalue({ ...name, [type]: value });
   };
 
-  // certificate download function
-  // const handleCaptureClick = async () => {
-  // const certificate = document.querySelector < HTMLElement > ".image-wrapper";
-  // if (!certificate) return;
-  // const canvas = await html2canvas(certificate);
-  // const dataURL = canvas.toDataURL("image/png");
-  // downloadjs(dataURL, "download.png", "image/png");
-  // console.log("done");
 
   const downloadDoc = async () => {
     const input = document.getElementById("image-download");
@@ -145,84 +95,9 @@ function Generate() {
       pdf.save(`${"certificate"}`);
     });
   };
-  // };
 
-  // const node = document.getElementById("image-download")
-
-  // function downloadImage(){
-  //   toPng(node)
-  //     .then(dataURL =>{
-  //       download(dataURL, "certificate.png")
-  //     })
-  //     .catch(()=> console.log("Error"))
-  // }
-
-  //   render() {
-
-  // ******************************************To upload to ipfs ******************************************************************************
-
-  const [uploadedImages, setUploadedImages] = useState([]);
-  const ipfs = ipfsHttpClient({
-    url: "https://ipfs.infura.io:5001/api/v0",
-    headers: {
-      authorization,
-    },
-  });
-  const onSubmitHandler = async (event) => {
-    event.preventDefault();
-    const form = event.target;
-    const files = form[0].files;
-
-    if (!files || files.length === 0) {
-      return alert("No files selected");
-    }
-
-    const file = files[0];
-    // upload files
-    const result = await ipfs.add(file);
-
-    setUploadedImages([
-      ...uploadedImages,
-      {
-        cid: result.cid,
-        path: result.path,
-      },
-    ]);
-
-    form.reset();
-  };
-
-  const [hash, sethash] = useState({
-    hash: " ",
-  });
-
-  const ipevent = (e) => {
-    let value;
-    console.log(e.target.value);
-    value = e.target.value;
-    sethash({ hash: value });
-  };
-
-  // ************************* IPFS upload ends ****************************************************
 
   // ************************* to send Email ****************************************************
-
-  // const sendEmail= (e) =>{
-  //   e.preventDefault();
-
-  //   emailjs.send('gmail', 'template_fi7d17g', {
-  //     url: `https://skywalker.infura-ipfs.io/ipfs/${hash.hash}`,
-  //     // cert_id: certid,
-  //     send_to: `${name.email}`,
-  //   }, 'MoCtvcDTDUYGW9Dxh')
-
-  //     .then((result) => {
-  //         alert("Email has been sent to recipent!", result.text);
-  //     }, (error) => {
-  //       alert("Error, try again!", error.text);
-  //     });
-  //     e.target.reset();
-  // }
 
   const sendEmail = (e) => {
     e.preventDefault();
@@ -362,10 +237,9 @@ function Generate() {
                       type="text"
                       class="form-control"
                       id="cert"
-                      // defaultValue={user.cert}
-                      // onChange = {handleIp}
+                      
                       onChange={ipEvent}
-                      // name = "cert"
+                     
                       placeholder="exam/competition name"
                       name="cert"
                       autoComplete="off"
@@ -402,7 +276,7 @@ function Generate() {
                       Authority Name
                     </label>
                     <div class="input-group has-validation">
-                      {/* <span class="input-group-text">@</span> */}
+                    
                       <input
                         type="text"
                         name="authName"
@@ -578,7 +452,7 @@ function Generate() {
         </footer>
       </div>
 
-      {/* print Certificate************************************************************************************************************* */}
+      {/* print Certificate********************************************************************************** */}
 
       <div class=" container1">
         <div className="image-wrapper" id="image-download">
@@ -608,70 +482,6 @@ function Generate() {
       </div>
 
       <div className="pb-5"></div>
-
-      {/* ******************************************To upload to ipfs ******************************************************************************  */}
-      {/* ***************************************** WITHOUT CSS WORKING CODE STARTS**************************** */}
-
-      {/* <div className="app">
-      <div className="app__container">
-        {ipfs ? (
-          <div className="container">
-            <h1>IPFS uploader</h1>
-            <form onSubmit={onSubmitHandler}>
-              <label for="file-upload" class="custom-file-upload">
-                Select File
-              </label>
-              <input id="file-upload" type="file" name="file" />
-              <button className="button" type="submit">
-                Upload file
-              </button>
-            </form>
-          </div>
-        ) : null}
-        <div className="data">
-          {uploadedImages.map((image, index) => (
-            <>
-              <img
-                className="image"
-                alt={`Uploaded #${index + 1}`}
-                src={"https://skywalker.infura-ipfs.io/ipfs/" + image.path}
-                style={{ maxWidth: "400px", margin: "15px" }}
-                key={image.cid.toString() + index}
-              />
-              <h4>Link to IPFS:</h4>
-              <a href={"https://skywalker.infura-ipfs.io/ipfs/" + image.path}>
-                <h3>{"https://skywalker.infura-ipfs.io/ipfs/" + image.path}</h3>
-              </a>
-            </>
-          ))}
-        </div>
-
-
-        <div>
-          <form>
-            Enter hash :{" "}
-            <input id="hash" type="text" onChange={ipevent} value={hash.hash} />
-          </form>
-          <a
-            href={`https://skywalker.infura-ipfs.io/ipfs/${hash.hash}`}
-            target="_blank"
-          >
-            <button>Verify</button>
-          </a>
-          {/* $(function(){" "}
-          {$("#baseUrl").click(function () {
-            window.location = $(this).attr("href") + "/" + $("#hash").val();
-            return false;
-          })}
-          ); 
-          <h1>hash = </h1>
-          <h2 id="baseurl">{hash.hash}</h2>
-        </div>
-      </div>
-    </div> 
-    {/* *********************************************WITHOUT CSS WORKING CODE ENDS******************************* */}
-
-      {/* *********************************************WITH CSS WORKING CODE STARTS******************************* */}
 
       <div class="row featurette pt-5 mt-5  bg2">
         <div class="col-md-7">
@@ -712,7 +522,7 @@ function Generate() {
                             className="image"
                             alt={`Uploaded #${index + 1}`}
                             src={
-                              "https://skywalker.infura-ipfs.io/ipfs/" +
+                              "https://ipfs.io/ipfs/" +
                               image.path
                             }
                             style={{ maxWidth: "400px", margin: "15px" }}
@@ -721,12 +531,12 @@ function Generate() {
                           {/* <h4>Link to IPFS:</h4>
                           <a
                             href={
-                              "https://skywalker.infura-ipfs.io/ipfs/" +
+                              "https://ipfs.io/ipfs/" +
                               image.path
                             }
                           >
                             <h3>
-                              {"https://skywalker.infura-ipfs.io/ipfs/" +
+                              {"https://ipfs.io/ipfs/" +
                                 image.path}
                             </h3>
                           </a> */}
@@ -746,22 +556,7 @@ function Generate() {
                           onChange={ipevent}
                           value={hash.hash}
                         />
-                      </form>
-                      {/* <a
-                        href={`https://skywalker.infura-ipfs.io/ipfs/${hash.hash}`}
-                        target="_blank"
-                      >
-                        <button>Verify</button>
-                      </a> */}
-
-                      {/* $(function(){" "}
-          {$("#baseUrl").click(function () {
-            window.location = $(this).attr("href") + "/" + $("#hash").val();
-            return false;
-          })}
-          ); */}
-                      {/* <h1>hash = </h1>
-                      <h2 id="baseurl">{hash.hash}</h2> */}
+                      </form>             
                     </div>
                   </div>
                 </div>
@@ -771,7 +566,6 @@ function Generate() {
         </div>
       </div>
 
-      {/* *********************************************WITH CSS WORKING CODE ENDS******************************* */}
 
       {/* ******************************** PRINT CERTIFICATE WITH HASH ************************************************************  */}
 
