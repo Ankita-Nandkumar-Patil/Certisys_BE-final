@@ -28,50 +28,7 @@ export default function Verify() {
             <p class="lead">Easy Verification of Your Documents.</p>
           </div>
 
-          {/* <div class="mx-auto">
-            <div class="col-md-5  col-lg-4 order-md-last">
-              <h4 class="d-flex justify-content-between align-items-center mb-3">
-                <span class="text-primary">Verify </span>
-              </h4>
-              
-              <ul class="list-group mb-3">
-                <li class="list-group-item p-4 d-flex justify-content-between lh-sm">
-                  <div>
-                    <h6 class="my-0 ">Enter Hash</h6>
-                    <small class="text-muted">Enter hash Below to verify</small>
-                  </div>
-                </li>
-              </ul>
-
-              <form class="card p-5">
-                <div class="input-group">
-                
-
-                  <input
-                    id="hash"
-                    type="text"
-                    placeholder="Hash"
-                    onChange={ipevent}
-                    value={hash.hash}
-                  />
-
-                  <a
-                    href={`https://skywalker.infura-ipfs.io/ipfs/${hash.hash}`}
-                    target="_blank"
-                  >
-                    <button
-                      type="submit"
-                      class="btn btn-primary"
-                      fdprocessedid="9g9kvk"
-                    >
-                      Verify
-                    </button>
-                  </a>
-                </div>
-              </form>
-            </div>
-          </div> */}
-
+    
           
           <div class="row featurette pt-5 mt-5  bg2">
         <div class="col-md-7">
@@ -111,7 +68,7 @@ export default function Verify() {
                             className="image"
                             alt={`Uploaded #${index + 1}`}
                             src={
-                              "https://skywalker.infura-ipfs.io/ipfs/" +
+                              "https://ipfs.io/ipfs/" +
                               image.path
                             }
                             style={{ maxWidth: "400px", margin: "15px" }}
